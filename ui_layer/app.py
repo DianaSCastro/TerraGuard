@@ -34,90 +34,7 @@ class TerraGuardUI:
             zoom_offset=-1,
             tile_size=512,
         )
-        # 🔁 Capa de respaldo (OpenStreetMap) en caso de error con Mapbox
-        #folium.TileLayer(
-         #   'OpenStreetMap',
-          #  name='Respaldo OSM'
-            
-        #).add_to(self.map)
-
-
-
-
-
-    # -----------------------------
-    # 1. Agregar capas (con opacidad baja)
-    # -----------------------------
-    def add_risk_layers(self, lon, lat):
-        # Inundación
-        flood_col = ee.ImageCollection("JRC/CEMS_GLOFAS/FloodHazard/v2_1").mosaic().select('RP100_depth_category')
-        flood_vis = {'min': 1, 'max': 5, 'palette': ['#ffffff'], 'opacity': 0.05}
-        flood_url = flood_col.getMapId(flood_vis)['tile_fetcher'].url_format
-        folium.TileLayer(
-            tiles=flood_url,
-            attr='EE Flood',
-            name='Riesgo inundación (100 años)',
-            overlay=True,
-            control=True,
-            show=False,  # No se muestra por defecto
-            opacity=0.05
-        ).add_to(self.map)
-
-        # NDVI
-        ndvi_col = ee.ImageCollection('MODIS/061/MOD13A2').select('NDVI').mosaic()
-        ndvi_vis = {'min': 0, 'max': 100, 'palette': ['#ffffff'], 'opacity': 0.05}
-        ndvi_url = ndvi_col.getMapId(ndvi_vis)['tile_fetcher'].url_format
-        folium.TileLayer(
-            tiles=ndvi_url,
-            attr='EE NDVI',
-            name='Vegetación (NDVI)',
-            overlay=True,
-            control=True,
-            show=False,
-            opacity=0.05
-        ).add_to(self.map)
-
-        # Elevación
-        elev_col = ee.Image("USGS/SRTMGL1_003")
-        elev_vis = {'min': 0, 'max': 3000, 'palette': ['#ffffff'], 'opacity': 0.05}
-        elev_url = elev_col.getMapId(elev_vis)['tile_fetcher'].url_format
-        folium.TileLayer(
-            tiles=elev_url,
-            attr='EE Elevación',
-            name='Elevación',
-            overlay=True,
-            control=True,
-            show=False,
-            opacity=0.05
-        ).add_to(self.map)
-
-        print("✅ Capas agregadas al control, mapa Mapbox visible por defecto")
-
-    # -----------------------------
-    # 2. Agregar marcador
-    # -----------------------------
-    def add_risk_marker(self, lon, lat):
-        score = self.risk_model.calculate_risk(lon, lat)
-        factors = self.risk_model.get_factors(lon, lat)
-        policy = self.rules.suggest_policy_type(factors)
-        actions = self.rules.mitigation_actions(score, factors)
-        insurability = self.rules.evaluate_insurability(score)
-
-        popup_text = f"""
-        <b>Riesgo Ambiental:</b> {score}/100<br>
-        <b>Asegurabilidad:</b> {insurability}<br>
-        <b>Póliza recomendada:</b> {', '.join(policy)}<br>
-        <b>Acciones recomendadas:</b> {', '.join(actions)}
-        """
-
-        folium.Marker(
-            location=[lat, lon],
-            popup=popup_text,
-            icon=folium.Icon(color=self.score_color(score))
-        ).add_to(self.map)
-
-        print("📍 Marcador de riesgo agregado")
-
+    
     # -----------------------------
     # 3. Color según score
     # -----------------------------
@@ -128,6 +45,14 @@ class TerraGuardUI:
             return 'orange'
         else:
             return 'red'
+        
+    def add_marker(self, lon, lat, popup_text="Ubicación seleccionada"):
+        folium.Marker(
+            location=[lat, lon],
+            popup=popup_text,
+            icon=folium.Icon(color='blue', icon='map-marker')
+        ).add_to(self.map)
+
 
     # -----------------------------
     # 4. Mostrar mapa
@@ -150,4 +75,5 @@ if __name__ == "__main__":
     app = TerraGuardUI()
     #app.add_risk_layers(lon, lat)
     #app.add_risk_marker(lon, lat)
+    app.add_marker(lon, lat, "Punto central: Monterrey")
     app.show_map()

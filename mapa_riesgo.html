@@ -17,7 +17,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_254c1f4de286cbb555f2dafdd85fdf13 {
+                #map_b472d2751518546ac75640447047cfec {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -54,14 +54,14 @@
 <body>
     
     
-            <div class="folium-map" id="map_254c1f4de286cbb555f2dafdd85fdf13" ></div>
+            <div class="folium-map" id="map_b472d2751518546ac75640447047cfec" ></div>
         
 </body>
 <script>
     
     
-            var map_254c1f4de286cbb555f2dafdd85fdf13 = L.map(
-                "map_254c1f4de286cbb555f2dafdd85fdf13",
+            var map_b472d2751518546ac75640447047cfec = L.map(
+                "map_b472d2751518546ac75640447047cfec",
                 {
                     center: [25.6866, -99.1332],
                     crs: L.CRS.EPSG3857,
@@ -81,7 +81,7 @@
 
         
     
-            var tile_layer_6221decd24c64049ba29ac418cf66b87 = L.tileLayer(
+            var tile_layer_ee20d60e4541d73fd6ec18985caacef5 = L.tileLayer(
                 "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1Ijoic2FtdW1hbXUiLCJhIjoiY21ocjhoNmt1MTRycjJqb29xcXBlbGFwbyJ9.lDsItTFuKz9UUCyDqshagQ",
                 {
   "minZoom": 0,
@@ -98,25 +98,63 @@
             );
         
     
-            tile_layer_6221decd24c64049ba29ac418cf66b87.addTo(map_254c1f4de286cbb555f2dafdd85fdf13);
+            tile_layer_ee20d60e4541d73fd6ec18985caacef5.addTo(map_b472d2751518546ac75640447047cfec);
         
     
-            var layer_control_23a3bc8ccc5e96d6628df5fa3c25b799_layers = {
+            var marker_a8f837724165f0dd6dd2e471daf7b193 = L.marker(
+                [25.6866, -99.1332],
+                {
+}
+            ).addTo(map_b472d2751518546ac75640447047cfec);
+        
+    
+            var icon_16a56335d2c991cd762e2ce5504c9d44 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5422566ca40660a18334c4be37caaa21 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fa1f417125a32a7feaedb997aa42ab56 = $(`<div id="html_fa1f417125a32a7feaedb997aa42ab56" style="width: 100.0%; height: 100.0%;">Punto central: Monterrey 🌆</div>`)[0];
+                popup_5422566ca40660a18334c4be37caaa21.setContent(html_fa1f417125a32a7feaedb997aa42ab56);
+            
+        
+
+        marker_a8f837724165f0dd6dd2e471daf7b193.bindPopup(popup_5422566ca40660a18334c4be37caaa21)
+        ;
+
+        
+    
+    
+                marker_a8f837724165f0dd6dd2e471daf7b193.setIcon(icon_16a56335d2c991cd762e2ce5504c9d44);
+            
+    
+            var layer_control_8d268c662bc1e5f354fa8b43bf223ad9_layers = {
                 base_layers : {
-                    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyj1ijoic2ftdw1hbxuilcjhijoiy21ocjhonmt1mtrycjjqb29xcxblbgfwbyj9.ldsittfukz9uucydqshagq" : tile_layer_6221decd24c64049ba29ac418cf66b87,
+                    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyj1ijoic2ftdw1hbxuilcjhijoiy21ocjhonmt1mtrycjjqb29xcxblbgfwbyj9.ldsittfukz9uucydqshagq" : tile_layer_ee20d60e4541d73fd6ec18985caacef5,
                 },
                 overlays :  {
                 },
             };
-            let layer_control_23a3bc8ccc5e96d6628df5fa3c25b799 = L.control.layers(
-                layer_control_23a3bc8ccc5e96d6628df5fa3c25b799_layers.base_layers,
-                layer_control_23a3bc8ccc5e96d6628df5fa3c25b799_layers.overlays,
+            let layer_control_8d268c662bc1e5f354fa8b43bf223ad9 = L.control.layers(
+                layer_control_8d268c662bc1e5f354fa8b43bf223ad9_layers.base_layers,
+                layer_control_8d268c662bc1e5f354fa8b43bf223ad9_layers.overlays,
                 {
   "position": "topright",
   "collapsed": true,
   "autoZIndex": true,
 }
-            ).addTo(map_254c1f4de286cbb555f2dafdd85fdf13);
+            ).addTo(map_b472d2751518546ac75640447047cfec);
 
         
 </script>
