@@ -1,5 +1,5 @@
 import ee
-import geemap
+import folium
 from processing_layer.risk_model import RiskModel
 from business_layer.rules import InsuranceRules
 from data_layer.data2 import DataLayer
@@ -10,42 +10,91 @@ print("Earth Engine funcionando correctamente 🌎")
 
 class TerraGuardUI:
     """
-    Interfaz para mostrar mapas de riesgo ambiental y puntuaciones.
+    Interfaz para mostrar mapas de riesgo ambiental y puntuaciones,
+    renderizados con Mapbox (sin geemap).
     """
     def __init__(self):
         self.risk_model = RiskModel()
         self.rules = InsuranceRules()
         self.data_layer = DataLayer()
 
-        # Inicializar mapa centrado en México
-        self.map_center = (25.6866, -99.1332)  # Monterrey
-        self.zoom = 6
-        self.map = geemap.Map(center=self.map_center, zoom=self.zoom)
+        # Token de Mapbox
+        self.mapbox_token = "sk.eyJ1Ijoic2FtdW1hbXUiLCJhIjoiY21ocjhoNmt1MTRycjJqb29xcXBlbGFwbyJ9.lDsItTFuKz9UUCyDqshagQ"
+
+        # Configuración del mapa base
+        self.map_center = [25.6866, -99.1332]  # Monterrey
+        self.zoom = 12
+
+        self.map = folium.Map(
+            location=self.map_center,
+            zoom_start=self.zoom,
+            tiles=f"https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{{z}}/{{x}}/{{y}}?access_token={self.mapbox_token}",
+            attr="Mapbox Satellite",
+            name="Mapa Satelital (Mapbox)",
+            zoom_offset=-1,
+            tile_size=512,
+        )
+        # 🔁 Capa de respaldo (OpenStreetMap) en caso de error con Mapbox
+        #folium.TileLayer(
+         #   'OpenStreetMap',
+          #  name='Respaldo OSM'
+            
+        #).add_to(self.map)
+
+
+
+
 
     # -----------------------------
-    # 1. Agregar capas de riesgo
+    # 1. Agregar capas (con opacidad baja)
     # -----------------------------
     def add_risk_layers(self, lon, lat):
-        # Dataset de inundación RP100
+        # Inundación
         flood_col = ee.ImageCollection("JRC/CEMS_GLOFAS/FloodHazard/v2_1").mosaic().select('RP100_depth_category')
-        flood_vis = {'min':1, 'max':5, 'palette':['#ffffff','#b3e5fc','#0288d1','#01579b','#001f54']}
-        flood_layer = geemap.ee_tile_layer(flood_col, flood_vis, name='Riesgo inundación (100 años)')
-        self.map.add_layer(flood_layer)
+        flood_vis = {'min': 1, 'max': 5, 'palette': ['#ffffff'], 'opacity': 0.05}
+        flood_url = flood_col.getMapId(flood_vis)['tile_fetcher'].url_format
+        folium.TileLayer(
+            tiles=flood_url,
+            attr='EE Flood',
+            name='Riesgo inundación (100 años)',
+            overlay=True,
+            control=True,
+            show=False,  # No se muestra por defecto
+            opacity=0.05
+        ).add_to(self.map)
 
-        # NDVI MODIS actualizado
+        # NDVI
         ndvi_col = ee.ImageCollection('MODIS/061/MOD13A2').select('NDVI').mosaic()
-        ndvi_vis = {'min':0, 'max':100, 'palette':['white','green']}
-        ndvi_layer = geemap.ee_tile_layer(ndvi_col, ndvi_vis, name='Vegetación (NDVI)')
-        self.map.add_layer(ndvi_layer)
+        ndvi_vis = {'min': 0, 'max': 100, 'palette': ['#ffffff'], 'opacity': 0.05}
+        ndvi_url = ndvi_col.getMapId(ndvi_vis)['tile_fetcher'].url_format
+        folium.TileLayer(
+            tiles=ndvi_url,
+            attr='EE NDVI',
+            name='Vegetación (NDVI)',
+            overlay=True,
+            control=True,
+            show=False,
+            opacity=0.05
+        ).add_to(self.map)
 
-        # Elevación SRTM
+        # Elevación
         elev_col = ee.Image("USGS/SRTMGL1_003")
-        elev_vis = {'min':0, 'max':3000, 'palette':['white','sienna','brown']}
-        elev_layer = geemap.ee_tile_layer(elev_col, elev_vis, name='Elevación')
-        self.map.add_layer(elev_layer)
+        elev_vis = {'min': 0, 'max': 3000, 'palette': ['#ffffff'], 'opacity': 0.05}
+        elev_url = elev_col.getMapId(elev_vis)['tile_fetcher'].url_format
+        folium.TileLayer(
+            tiles=elev_url,
+            attr='EE Elevación',
+            name='Elevación',
+            overlay=True,
+            control=True,
+            show=False,
+            opacity=0.05
+        ).add_to(self.map)
+
+        print("✅ Capas agregadas al control, mapa Mapbox visible por defecto")
 
     # -----------------------------
-    # 2. Agregar marcador de riesgo
+    # 2. Agregar marcador
     # -----------------------------
     def add_risk_marker(self, lon, lat):
         score = self.risk_model.calculate_risk(lon, lat)
@@ -61,17 +110,13 @@ class TerraGuardUI:
         <b>Acciones recomendadas:</b> {', '.join(actions)}
         """
 
-        import folium
-        folium_map = folium.Map(location=self.map_center, zoom_start=self.zoom)
-
         folium.Marker(
-            location=(lat, lon),
+            location=[lat, lon],
             popup=popup_text,
             icon=folium.Icon(color=self.score_color(score))
-        ).add_to(folium_map)
+        ).add_to(self.map)
 
-        folium_map.save("mapa_riesgo.html")
-        print("✅ Mapa de riesgo guardado como mapa_riesgo.html")
+        print("📍 Marcador de riesgo agregado")
 
     # -----------------------------
     # 3. Color según score
@@ -88,8 +133,14 @@ class TerraGuardUI:
     # 4. Mostrar mapa
     # -----------------------------
     def show_map(self):
-        self.map.add_layer_control()
-        return self.map
+        folium.LayerControl().add_to(self.map)
+        output_file = "mapa_riesgo.html"
+        self.map.save(output_file)
+        print(f"✅ Mapa guardado como {output_file}")
+
+        import webbrowser, os
+        webbrowser.open('file://' + os.path.realpath(output_file))
+
 
 # -----------------------------
 # Ejemplo de uso
@@ -97,6 +148,6 @@ class TerraGuardUI:
 if __name__ == "__main__":
     lon, lat = -99.1332, 25.6866  # Monterrey
     app = TerraGuardUI()
-    app.add_risk_layers(lon, lat)
-    app.add_risk_marker(lon, lat)
+    #app.add_risk_layers(lon, lat)
+    #app.add_risk_marker(lon, lat)
     app.show_map()

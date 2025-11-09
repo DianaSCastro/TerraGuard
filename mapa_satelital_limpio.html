@@ -17,7 +17,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_254c1f4de286cbb555f2dafdd85fdf13 {
+                #map_7770bc395de5522ed4df7d4b58dce46f {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -54,24 +54,22 @@
 <body>
     
     
-            <div class="folium-map" id="map_254c1f4de286cbb555f2dafdd85fdf13" ></div>
+            <div class="folium-map" id="map_7770bc395de5522ed4df7d4b58dce46f" ></div>
         
 </body>
 <script>
     
     
-            var map_254c1f4de286cbb555f2dafdd85fdf13 = L.map(
-                "map_254c1f4de286cbb555f2dafdd85fdf13",
+            var map_7770bc395de5522ed4df7d4b58dce46f = L.map(
+                "map_7770bc395de5522ed4df7d4b58dce46f",
                 {
                     center: [25.6866, -99.1332],
                     crs: L.CRS.EPSG3857,
                     ...{
-  "zoom": 12,
+  "zoom": 6,
   "zoomControl": true,
   "preferCanvas": false,
-  "name": "Mapa Satelital (Mapbox)",
-  "zoomOffset": -1,
-  "tileSize": 512,
+  "name": "Mapa Satelital",
 }
 
                 }
@@ -81,8 +79,8 @@
 
         
     
-            var tile_layer_6221decd24c64049ba29ac418cf66b87 = L.tileLayer(
-                "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1Ijoic2FtdW1hbXUiLCJhIjoiY21ocjhoNmt1MTRycjJqb29xcXBlbGFwbyJ9.lDsItTFuKz9UUCyDqshagQ",
+            var tile_layer_1e274ba022171eee7ee5b0540a272d1a = L.tileLayer(
+                "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FtdW1hbXUiLCJhIjoiY21nY3lzcGc3MHB2NDJqcG5qZmQza2Z0eCJ9.DEOCwZ2mVn0AeMSzCpD95wV",
                 {
   "minZoom": 0,
   "maxZoom": 18,
@@ -98,25 +96,63 @@
             );
         
     
-            tile_layer_6221decd24c64049ba29ac418cf66b87.addTo(map_254c1f4de286cbb555f2dafdd85fdf13);
+            tile_layer_1e274ba022171eee7ee5b0540a272d1a.addTo(map_7770bc395de5522ed4df7d4b58dce46f);
         
     
-            var layer_control_23a3bc8ccc5e96d6628df5fa3c25b799_layers = {
+            var marker_8b0ed36eb130140997a4366943421735 = L.marker(
+                [25.6866, -99.1332],
+                {
+}
+            ).addTo(map_7770bc395de5522ed4df7d4b58dce46f);
+        
+    
+            var icon_076096714cf06b7f95a0a0308af05d0c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4e40abd22acb083e30515c3bfc211cd8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d4a909689532b0710263a4ce46c39436 = $(`<div id="html_d4a909689532b0710263a4ce46c39436" style="width: 100.0%; height: 100.0%;">         <b>Riesgo Ambiental:</b> 9/100<br>         <b>Asegurabilidad:</b> Asegurable estándar<br>         <b>Póliza recomendada:</b> Cobertura estándar<br>         <b>Acciones recomendadas:</b> No se requieren acciones adicionales         </div>`)[0];
+                popup_4e40abd22acb083e30515c3bfc211cd8.setContent(html_d4a909689532b0710263a4ce46c39436);
+            
+        
+
+        marker_8b0ed36eb130140997a4366943421735.bindPopup(popup_4e40abd22acb083e30515c3bfc211cd8)
+        ;
+
+        
+    
+    
+                marker_8b0ed36eb130140997a4366943421735.setIcon(icon_076096714cf06b7f95a0a0308af05d0c);
+            
+    
+            var layer_control_13ed4aa26853482befcd5871d6e663ea_layers = {
                 base_layers : {
-                    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyj1ijoic2ftdw1hbxuilcjhijoiy21ocjhonmt1mtrycjjqb29xcxblbgfwbyj9.ldsittfukz9uucydqshagq" : tile_layer_6221decd24c64049ba29ac418cf66b87,
+                    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=pk.eyj1ijoic2ftdw1hbxuilcjhijoiy21ny3lzcgc3mhb2ndjqcg5qzmqza2z0ecj9.deocwz2mvn0aemszcpd95wv" : tile_layer_1e274ba022171eee7ee5b0540a272d1a,
                 },
                 overlays :  {
                 },
             };
-            let layer_control_23a3bc8ccc5e96d6628df5fa3c25b799 = L.control.layers(
-                layer_control_23a3bc8ccc5e96d6628df5fa3c25b799_layers.base_layers,
-                layer_control_23a3bc8ccc5e96d6628df5fa3c25b799_layers.overlays,
+            let layer_control_13ed4aa26853482befcd5871d6e663ea = L.control.layers(
+                layer_control_13ed4aa26853482befcd5871d6e663ea_layers.base_layers,
+                layer_control_13ed4aa26853482befcd5871d6e663ea_layers.overlays,
                 {
   "position": "topright",
   "collapsed": true,
   "autoZIndex": true,
 }
-            ).addTo(map_254c1f4de286cbb555f2dafdd85fdf13);
+            ).addTo(map_7770bc395de5522ed4df7d4b58dce46f);
 
         
 </script>
