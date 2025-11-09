@@ -1,101 +1,518 @@
-/* Estilos globales */
+/* --- 1. Configuración Global y Variables --- */
+:root {
+    --color-bg-darkest: #121212;  /* Fondo principal */
+    --color-bg-dark: #1e1e1e;     /* Fondo de tarjetas */
+    --color-bg-light: #2a2a2a;    /* Bordes, inputs */
+    --color-text-primary: #e0e0e0; /* Texto principal */
+    --color-text-secondary: #a0a0a0; /* Texto secundario, placeholders */
+    
+    --color-brand-green: #22c55e; /* Verde brillante (botón) */
+    --color-brand-green-dark: #16a34a;
+    
+    --color-export-blue: #3b82f6; /* Azul (botón exportar) */
+    --color-export-blue-dark: #2563eb;
+
+    --color-ai-purple: #4a3a6a; /* Fondo tarjeta AI */
+    
+    --color-risk-low: #22c55e;     /* Verde */
+    --color-risk-medium: #f59e0b;  /* Amarillo/Naranja */
+    --color-risk-high: #ef4444;    /* Rojo */
+    
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --border-radius: 8px;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-family);
+    background-color: var(--color-bg-darkest);
+    color: var(--color-text-primary);
     margin: 0;
     padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+p {
+    margin: 0 0 15px 0;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+/* --- 2. Encabezado y Navegación --- */
+header {
     display: flex;
-    height: 100vh;
-    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background-color: var(--color-bg-dark);
+    border-bottom: 1px solid var(--color-bg-light);
 }
 
-/* Contenedor del Mapa */
-#map {
-    height: 100vh;
-    width: 70%;
-    z-index: 1;
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.logo-icon {
+    font-size: 24px;
+    background-color: var(--color-brand-green);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    color: white;
+}
+.header-user {
+    display: flex;
+    flex-direction: column;
+}
+.header-user strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+.header-user span {
+    color: var(--color-text-secondary);
+    font-size: 14px;
 }
 
-/* Panel de Controles */
-#controls {
-    width: 30%;
-    height: 100vh;
-    padding: 20px;
-    box-sizing: border-box; /* Incluye padding en el ancho */
-    overflow-y: auto;
-    background: #f9f9f9;
-    box-shadow: -3px 0 10px rgba(0,0,0,0.1);
-    z-index: 2;
+.tabs {
+    display: flex;
+    padding: 0 32px;
+    background-color: var(--color-bg-dark);
+    border-bottom: 1px solid var(--color-bg-light);
+}
+.tab-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+.tab-item:hover {
+    color: var(--color-text-primary);
+}
+.tab-item.active {
+    color: var(--color-brand-green);
+    border-bottom-color: var(--color-brand-green);
+}
+.tab-item .material-icons-outlined {
+    font-size: 20px;
 }
 
-h1 {
-    margin-top: 0;
-    color: #333;
+/* --- 3. Contenedor Principal y Tarjetas --- */
+.main-container {
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* Formulario */
+.card {
+    background-color: var(--color-bg-dark);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    border: 1px solid var(--color-bg-light);
+}
+
+/* --- 4. Diseño del Formulario --- */
+.form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: var(--color-bg-dark);
+    border-radius: var(--border-radius);
+    padding: 32px;
+    border: 1px solid var(--color-bg-light);
+}
+.form-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    border-bottom: 1px solid var(--color-bg-light);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.form-icon {
+    font-size: 24px;
+    color: var(--color-text-secondary);
+}
+.form-header-text h2 {
+    margin: 0 0 5px 0;
+}
+.form-header-text p {
+    margin: 0;
+}
+
+.form-section {
+    margin-bottom: 24px;
+}
+.form-section h3 {
+    font-size: 18px;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+}
+.form-grid-1 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px 24px;
+}
 .form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+}
+.form-group input {
+    font-family: var(--font-family);
+    font-size: 16px;
+    padding: 12px 14px;
+    background-color: var(--color-bg-darkest);
+    border: 1px solid var(--color-bg-light);
+    border-radius: 6px;
+    color: var(--color-text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+}
+.form-group input:focus {
+    outline: none;
+    border-color: var(--color-brand-green);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+}
+
+.form-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 32px;
+}
+
+.error-message {
+    color: var(--color-risk-high);
+    font-weight: 500;
     margin-bottom: 15px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
+/* --- 5. Botones --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-family);
     font-size: 16px;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.2s ease;
+    text-decoration: none;
 }
-
-button:hover {
-    background-color: #0056b3;
+.btn .material-icons-outlined {
+    font-size: 20px;
 }
-
-/* Estilo del botón mientras carga */
-button:disabled {
-    background-color: #aaa;
+.btn-lg {
+    padding: 16px 24px;
+    font-size: 18px;
+}
+.btn-primary {
+    background-color: var(--color-brand-green);
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: var(--color-brand-green-dark);
+}
+.btn-secondary {
+    background-color: var(--color-bg-light);
+    color: var(--color-text-primary);
+}
+.btn-secondary:hover {
+    background-color: #3a3a3a;
+}
+.btn-export {
+    background-color: var(--color-export-blue);
+    color: #ffffff;
+}
+.btn-export:hover {
+    background-color: var(--color-export-blue-dark);
+}
+.btn:disabled {
+    background-color: var(--color-bg-light);
+    color: var(--color-text-secondary);
     cursor: not-allowed;
 }
 
-/* Contenedor de Resultados */
-#results-container {
-    margin-top: 20px;
-    padding: 15px;
-    background: #fff;
-    border-radius: 5px;
-    border: 1px solid #eee;
+/* --- 6. Dashboard de Resultados --- */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+.dashboard-header h2 {
+    margin-bottom: 5px;
+}
+.dashboard-header p {
+    margin: 0;
+    font-size: 16px;
 }
 
-/* Estilos para el Popup del Mapa */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 24px;
+}
+.dashboard-col-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.dashboard-col-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Tarjeta de Mapa */
+#map-placeholder {
+    height: 250px;
+    background-color: #3a3a3a;
+    border-radius: var(--border-radius);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="10" height="10" fill-opacity="0.3" fill="%2322c55e"/></svg>');
+    background-size: 10px 10px;
+}
+.map-icon {
+    font-size: 80px;
+    color: var(--color-risk-medium);
+}
+.map-coords {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.7);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: white;
+    line-height: 1.4;
+}
+
+/* Tarjeta Riesgo General */
+.card-riesgo-general {
+    text-align: center;
+    background-color: var(--color-risk-medium);
+    color: var(--color-bg-darkest);
+    border: none;
+}
+.card-riesgo-general .card-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+.card-riesgo-general h3 {
+    margin-bottom: 5px;
+    font-size: 18px;
+    opacity: 0.9;
+}
+.card-riesgo-general h1 {
+    font-size: 64px;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+.card-riesgo-general p {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-bg-darkest);
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Clases de Riesgo (para JS) */
+.card-riesgo-general.risk-low { background-color: var(--color-risk-low); }
+.card-riesgo-general.risk-medium { background-color: var(--color-risk-medium); }
+.card-riesgo-general.risk-high { background-color: var(--color-risk-high); }
+
+/* Grilla de Métricas */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.card-metric {
+    text-align: center;
+}
+.card-metric h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+.card-metric h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+/* Barras de Progreso */
+progress {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: none;
+}
+/* Fondo de la barra */
+progress::-webkit-progress-bar {
+    background-color: var(--color-bg-light);
+    border-radius: 6px;
+}
+progress::-moz-progress-bar {
+    background-color: var(--color-bg-light);
+    border-radius: 6px;
+}
+/* Valor de la barra (colores dinámicos) */
+progress.risk-low::-webkit-progress-value { background-color: var(--color-risk-low); }
+progress.risk-medium::-webkit-progress-value { background-color: var(--color-risk-medium); }
+progress.risk-high::-webkit-progress-value { background-color: var(--color-risk-high); }
+
+progress.risk-low::-moz-progress-bar { background-color: var(--color-risk-low); }
+progress.risk-medium::-moz-progress-bar { background-color: var(--color-risk-medium); }
+progress.risk-high::-moz-progress-bar { background-color: var(--color-risk-high); }
+
+
+/* Tarjeta de AI */
+.card-ai {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    background-color: var(--color-ai-purple);
+    border-color: #5a4a7a;
+}
+.card-ai .card-icon {
+    font-size: 32px;
+    color: #c3aeff;
+}
+.card-ai h3 {
+    color: #f0eaff;
+}
+.card-ai p {
+    color: #d0c0ff;
+    margin: 0;
+}
+
+/* --- 7. Responsividad (Básico) --- */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Apila las columnas */
+    }
+    .dashboard-col-main {
+        flex-direction: row; /* Pone mapa y riesgo general uno al lado del otro */
+    }
+    .dashboard-col-main > .card {
+        width: 50%;
+    }
+}
+@media (max-width: 900px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+    }
+    .dashboard-col-main {
+        flex-direction: column; /* Apila mapa y riesgo general de nuevo */
+    }
+    .dashboard-col-main > .card {
+        width: 100%;
+    }
+}
+@media (max-width: 600px) {
+    .header {
+        padding: 16px;
+    }
+    .tabs {
+        padding: 0 16px;
+    }
+    .main-container {
+        padding: 16px;
+    }
+    .form-container {
+        padding: 20px;
+    }
+    .metrics-grid {
+        grid-template-columns: 1fr; /* 1 columna en móviles */
+    }
+}
+
+/* Tarjeta de Mapa */
+/* CAMBIAMOS EL SELECTOR DE #map-placeholder A #map-dashboard */
+#map-dashboard {
+    height: 250px; /* Mantenemos la altura */
+    border-radius: var(--border-radius); /* Mantenemos el borde redondeado */
+    background-color: #3a3a3a; /* Un fondo oscuro mientras carga */
+    z-index: 1; /* Asegura que el mapa esté por encima de otros elementos si es necesario */
+}
+/* ELIMINAMOS los estilos antiguos de .map-icon y .map-coords */
+
+
+/* ... (El resto de estilos sin cambios) ... */
+
+/* 💡 AÑADIR ESTILOS PARA EL POPUP DEL MAPA (para que combine con el tema oscuro) */
 .leaflet-popup-content-wrapper {
-    border-radius: 8px;
+    background: var(--color-bg-light);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-bg-light);
+    border-radius: var(--border-radius);
+}
+.leaflet-popup-content {
+    color: var(--color-text-primary);
+}
+.leaflet-popup-content b, .leaflet-popup-content hr {
+    color: var(--color-text-primary);
+}
+.leaflet-popup-tip {
+    background: var(--color-bg-light);
+}
+.leaflet-container a.leaflet-popup-close-button {
+    color: var(--color-text-primary);
 }
 
-.leaflet-popup-content b {
-    color: #333;
-}
-.leaflet-popup-content hr {
-    margin: 8px 0;
+/* Clases de riesgo para el popup (del script.js) */
+.risk-low { color: var(--color-risk-low); font-weight: bold; }
+.risk-medium { color: var(--color-risk-medium); font-weight: bold; }
+.risk-high { color: var(--color-risk-high); font-weight: bold; }
+
+/* ... (El resto de estilos sin cambios) ... */
+
+/* --- 8. Animaciones --- */
+@keyframes spin { 
+    from { 
+        transform: rotate(0deg); 
+    } 
+    to { 
+        transform: rotate(360deg); 
+    } 
 }
 
-/* Clases de riesgo para el popup */
-.risk-low { color: green; font-weight: bold; }
-.risk-medium { color: orange; font-weight: bold; }
-.risk-high { color: red; font-weight: bold; }
+.spin-animation {
+    animation: spin 1s linear infinite;
+}
