@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraGuard - Análisis de Riesgo</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div id="controls">
+        <h1>TerraGuard 🛡️</h1>
+        <p>Introduce coordenadas para analizar el riesgo ambiental.</p>
+        
+        <form id="analysis-form">
+            <div class="form-group">
+                <label for="lat">Latitud</label>
+                <input type="text" id="lat" name="lat" placeholder="Ej. 25.6866" required>
+            </div>
+            <div class="form-group">
+                <label for="lon">Longitud</label>
+                <input type="text" id="lon" name="lon" placeholder="Ej. -100.3161" required>
+            </div>
+            <div class="form-group">
+                <label for="year">Año (Opcional)</label>
+                <input type="number" id="year" name="year" placeholder="Ej. 2030 (para predicción)">
+            </div>
+            <button type="submit" id="analyze-btn">Analizar Ubicación</button>
+        </form>
+
+        <div id="results-container">
+            <p>Haz clic en "Analizar" o haz clic en el mapa para obtener un reporte.</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+            
+    <script src="script.js"></script>
+</body>
+</html>
