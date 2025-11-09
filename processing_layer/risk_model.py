@@ -11,14 +11,14 @@ class RiskModel:
         self.data_layer = DataLayer()
         # Ponderaciones (deben sumar aproximadamente 1.0)
         self.weights = {
-            "seismic": 0.20,
-            "flood": 0.20,
-            "hurricane": 0.10,
-            "fire": 0.10,
-            "temperature": 0.05,
-            "humidity": 0.05,
-            "wind": 0.05,
-            "precipitation": 0.05,
+            "seismic": 0.4,
+            "flood": 0.3,
+            "hurricane": 0.2,
+            "fire": 0.1,
+            "temperature": 0.,
+            "humidity": 0.10,
+            "wind": 0.10,
+            "precipitation": 0.10,
             "vegetation": 0.10,
             "elevation": 0.10
         }
@@ -99,31 +99,80 @@ class RiskModel:
     # Public: calcula riesgo y devuelve desglose
     # -----------------------------
     def calculate_risk_with_breakdown(self, lon, lat, target_year=None):
+    # 1️⃣ Guardar los valores crudos
         raw = self.get_factors(lon, lat, target_year=target_year)
 
-        # Normalización de métricas (igual que antes)
+        # 2️⃣ Normalización de métricas
         m = {}
-        seismic = float(raw.get('seismic_rate') or 0)
-        m['seismic'] = self._clip01(seismic / self.max_values['seismic'])
-        flood_val = self._extract_numeric(raw.get('flood_rate'))
-        m['flood'] = self._clip01(flood_val / self.max_values['flood'])
-        hurricane = float(raw.get('hurricane_rate') or 0)
-        m['hurricane'] = self._clip01(hurricane / self.max_values['hurricane'])
-        fire = float(raw.get('fire_rate') or 0)
-        m['fire'] = self._clip01(fire / self.max_values['fire'])
-        temp = float(raw.get('temperature') or 0)
-        m['temperature'] = self._clip01(temp / self.max_values['temperature'])
-        humidity = float(raw.get('humidity') or 0)
-        m['humidity'] = self._clip01(humidity / self.max_values['humidity'])
-        wind = float(raw.get('wind') or 0)
-        m['wind'] = self._clip01(wind / self.max_values['wind'])
-        precip = float(raw.get('precipitation') or 0)
-        m['precipitation'] = self._clip01(precip / self.max_values['precipitation'])
-        ndvi_norm_0_1 = self._normalize_ndvi(raw.get('vegetation'))
-        m['vegetation'] = self._clip01(1.0 - ndvi_norm_0_1)
-        elev = float(raw.get('elevation') or 0)
+        n = {}
+
+        # Si existe el valor, asignar 1; si no, usar normalización original
+        seismic_raw = float(raw.get('seismic_rate'))
+        m['seismic'] = 1.0 if seismic_raw else 0.0
+        n['seismic'] = self._clip01(seismic_raw / self.max_values['seismic'])
+        print(n['seismic'])
+
+        flood_raw = raw.get('flood_rate')
+        flood_val = self._extract_numeric(flood_raw)
+        m['flood'] = 1.0 if flood_raw else 0.0
+        n['flood'] = self._clip01(flood_val / self.max_values['flood'])
+
+        hurricane_raw = raw.get('hurricane_rate')
+        m['hurricane'] = 1.0 if hurricane_raw else 0.0
+        n['hurricane'] = self._clip01(hurricane_raw / self.max_values['hurricane'])
+
+        fire_raw = raw.get('fire_rate')
+        m['fire'] = 1.0 if fire_raw else 0.0
+        n['fire'] = self._clip01(fire_raw / self.max_values['fire'])
+
+        temp_raw = raw.get('temperature')
+        m['temperature'] = 1.0 if temp_raw else 0.0
+        n['temperature'] = self._clip01(temp_raw / self.max_values['temperature'])
+
+        humidity_raw = raw.get('humidity')
+        m['humidity'] = 1.0 if humidity_raw else 0.0
+        n['humidity'] = self._clip01(humidity_raw / self.max_values['humidity']) 
+
+        wind_raw = raw.get('wind')
+        m['wind'] = 1.0 if wind_raw else 0.0
+        n['wind'] = self._clip01(wind_raw / self.max_values['wind'])
+
+        precip_raw = raw.get('precipitation')
+        m['precipitation'] = 1.0 if precip_raw else 0.0
+        n['precipitation'] = self._clip01(precip_raw / self.max_values['precipitation'])
+
+        vegetation_raw = raw.get('vegetation')
+        if vegetation_raw is not None:
+            m['vegetation'] = 1.0
+        else:
+           m['vegetation'] = 0.0
+        ndvi_norm_0_1 = self._normalize_ndvi(vegetation_raw)
+        n['vegetation'] = self._clip01(1.0 - ndvi_norm_0_1)
+
+        elev_raw = raw.get('elevation')
+        elev = float(elev_raw or 0)
         elev_norm = self._clip01(elev / self.max_values['elevation'])
-        m['elevation'] = self._clip01(1.0 - elev_norm)
+        m['elevation'] = 1.0 if elev_raw else 0.0
+        n['elevation'] = self._clip01(1.0 - elev_norm)
+        # ✅ Devolver resultados
+
+        # Ajuste dinámico de pesos
+        adjusted_weights = self.adjust_weights(raw)
+
+        # Calcular riesgo ponderado
+        total = 0.0
+        for key, w in adjusted_weights.items():
+            total += m.get(key, 0) * w
+
+        risk_percent = int(round(total * 100))
+        metrics_percent = {k: round(v*100, 2) for k, v in n.items()}
+
+        return {
+            'raw_factors': raw,
+            'metrics_percent': metrics_percent,
+            'risk_percent': risk_percent  # ejemplo de cálculo de riesgo general
+        }
+
 
         # Ajuste dinámico de pesos
         adjusted_weights = self.adjust_weights(raw)

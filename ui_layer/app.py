@@ -3,6 +3,8 @@ import folium
 from processing_layer.risk_model import RiskModel
 from business_layer.rules import InsuranceRules
 from data_layer.data2 import DataLayer
+import math 
+from geopy.distance import geodesic, great_circle
 
 # Inicializar Earth Engine
 ee.Initialize(project='terraguard-477621')
@@ -16,6 +18,8 @@ class TerraGuardUI:
         self.risk_model = RiskModel()
         self.rules = InsuranceRules()
         self.data_layer = DataLayer()
+
+        
 
         # Token de Mapbox
         self.mapbox_token = "sk.eyJ1Ijoic2FtdW1hbXUiLCJhIjoiY21ocjhoNmt1MTRycjJqb29xcXBlbGFwbyJ9.lDsItTFuKz9UUCyDqshagQ"
@@ -33,6 +37,37 @@ class TerraGuardUI:
             zoom_offset=-1,
             tile_size=512,
         )
+
+
+        # -----------------------------
+    # Agregar un polígono alrededor de la ubicación
+    # -----------------------------
+    def add_risk_polygon(self, lon, lat, risk_general, radius_meters=500):
+        """
+        radius_meters: tamaño aproximado del área alrededor de la ubicación
+        """
+        import geopy.distance
+
+        # Convertir distancia a grados aproximadamente (simplificado)
+        lat_offset = radius_meters / 111320  # 1 grado lat ~ 111.32 km
+        lon_offset = radius_meters / (111320 * abs(math.cos(math.radians(lat))))
+
+        # Crear vértices del cuadrado
+        polygon_coords = [
+            [lat - lat_offset, lon - lon_offset],
+            [lat - lat_offset, lon + lon_offset],
+            [lat + lat_offset, lon + lon_offset],
+            [lat + lat_offset, lon - lon_offset],
+            [lat - lat_offset, lon - lon_offset]
+        ]
+
+        folium.Polygon(
+            locations=polygon_coords,
+            color=self.score_color(risk_general),  # borde
+            fill=True,
+            fill_color=self.score_color(risk_general),
+            fill_opacity=0.2  # baja opacidad
+        ).add_to(self.map)
 
     # -----------------------------
     # Determinar color del marcador según riesgo
@@ -136,6 +171,12 @@ class TerraGuardUI:
 
         # Agregar marcador con la info ya normalizada
         self.add_risk_marker(lon, lat, risk_general, metrics, raw)
+                # Agregar marcador con la info ya normalizada
+        self.add_risk_marker(lon, lat, risk_general, metrics, raw)
+
+        # Agregar polígono de la zona analizada
+        self.add_risk_polygon(lon, lat, risk_general, radius_meters=500)
+
 
 
 # -----------------------------
