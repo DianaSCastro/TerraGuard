@@ -2,6 +2,7 @@ import ee
 import requests
 import json
 import pandas as pd
+import random
 
 # Inicializar Google Earth Engine
 ee.Initialize(project='terraguard-477621')
@@ -47,6 +48,11 @@ class DataLayer:
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
+
+
+             # 👇 Imprime las primeras 5 fechas y horas disponibles (verifica que son de hoy)
+            print("🕒 Horas disponibles:", data['hourly']['time'][:5])
+
             # Retornar promedios de las últimas 24 horas
             temp = sum(data['hourly']['temperature_2m'])/len(data['hourly']['temperature_2m'])
             humidity = sum(data['hourly']['relative_humidity_2m'])/len(data['hourly']['relative_humidity_2m'])
@@ -133,3 +139,38 @@ class DataLayer:
         c = 2*asin(sqrt(a))
         km = 6371 * c
         return km
+    
+
+
+     # -----------------------------
+    # MÉTODOS PREDICTIVOS A FUTURO
+    # -----------------------------
+    def get_future_weather(self, lon, lat, target_year):
+        """
+        Predicción simplificada de clima.
+        target_year: año futuro (int)
+        """
+        current = self.get_weather(lon, lat)
+        years_ahead = target_year - 2025  # usar 2025 como referencia
+
+        # Tendencia lineal simple: por año +0.2°C, -0.5% humedad, +0.1 mm precipitación
+        future = {
+            "temperature": current['temperature'] + 0.2 * years_ahead,
+            "humidity": max(0, min(100, current['humidity'] - 0.5 * years_ahead)),
+            "wind_speed": current['wind_speed'],  # sin cambio
+            "precipitation": max(0, current['precipitation'] + 0.1 * years_ahead)
+        }
+        return future
+    
+    def get_future_ndvi(self, lon, lat, target_year):
+        """
+        Predicción simplificada de NDVI.
+        """
+        current_ndvi = self.get_ndvi(lon, lat)
+        years_ahead = target_year - 2025
+
+        # Simulamos tendencia de vegetación: +/- 10 por año
+        trend = random.choice([-1, 1]) * 10
+        future_ndvi = max(0, min(1000, current_ndvi + trend * years_ahead))
+        return future_ndvi
+

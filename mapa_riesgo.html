@@ -17,7 +17,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_b472d2751518546ac75640447047cfec {
+                #map_e55dff77e11f06921fbb92623bb470b6 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -54,16 +54,16 @@
 <body>
     
     
-            <div class="folium-map" id="map_b472d2751518546ac75640447047cfec" ></div>
+            <div class="folium-map" id="map_e55dff77e11f06921fbb92623bb470b6" ></div>
         
 </body>
 <script>
     
     
-            var map_b472d2751518546ac75640447047cfec = L.map(
-                "map_b472d2751518546ac75640447047cfec",
+            var map_e55dff77e11f06921fbb92623bb470b6 = L.map(
+                "map_e55dff77e11f06921fbb92623bb470b6",
                 {
-                    center: [25.6866, -99.1332],
+                    center: [32.65, -115.52],
                     crs: L.CRS.EPSG3857,
                     ...{
   "zoom": 12,
@@ -81,7 +81,7 @@
 
         
     
-            var tile_layer_ee20d60e4541d73fd6ec18985caacef5 = L.tileLayer(
+            var tile_layer_f31e8ee3d5983310596bf5cba9ed4b3b = L.tileLayer(
                 "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyJ1Ijoic2FtdW1hbXUiLCJhIjoiY21ocjhoNmt1MTRycjJqb29xcXBlbGFwbyJ9.lDsItTFuKz9UUCyDqshagQ",
                 {
   "minZoom": 0,
@@ -98,63 +98,63 @@
             );
         
     
-            tile_layer_ee20d60e4541d73fd6ec18985caacef5.addTo(map_b472d2751518546ac75640447047cfec);
+            tile_layer_f31e8ee3d5983310596bf5cba9ed4b3b.addTo(map_e55dff77e11f06921fbb92623bb470b6);
         
     
-            var marker_a8f837724165f0dd6dd2e471daf7b193 = L.marker(
-                [25.6866, -99.1332],
+            var marker_bfc14ae47ebbd12d8720277f1f30f709 = L.marker(
+                [32.65, -115.52],
                 {
 }
-            ).addTo(map_b472d2751518546ac75640447047cfec);
+            ).addTo(map_e55dff77e11f06921fbb92623bb470b6);
         
     
-            var icon_16a56335d2c991cd762e2ce5504c9d44 = L.AwesomeMarkers.icon(
+            var icon_4904124f9d022e63f26302ae31b0878a = L.AwesomeMarkers.icon(
                 {
-  "markerColor": "blue",
+  "markerColor": "green",
   "iconColor": "white",
-  "icon": "map-marker",
+  "icon": "info-sign",
   "prefix": "glyphicon",
   "extraClasses": "fa-rotate-0",
 }
             );
         
     
-        var popup_5422566ca40660a18334c4be37caaa21 = L.popup({
-  "maxWidth": "100%",
+        var popup_19f06b76a602b3508454120c38cd753a = L.popup({
+  "maxWidth": 420,
 });
 
         
             
-                var html_fa1f417125a32a7feaedb997aa42ab56 = $(`<div id="html_fa1f417125a32a7feaedb997aa42ab56" style="width: 100.0%; height: 100.0%;">Punto central: Monterrey 🌆</div>`)[0];
-                popup_5422566ca40660a18334c4be37caaa21.setContent(html_fa1f417125a32a7feaedb997aa42ab56);
+                var html_1eaa6ff6e6ea0c2142eca89f68a74ec2 = $(`<div id="html_1eaa6ff6e6ea0c2142eca89f68a74ec2" style="width: 100.0%; height: 100.0%;">         <b>📍 Coordenadas:</b> (32.650000, -115.520000)<br>         <b>🌡️ Riesgo general:</b> 28%<br><hr>         <b>📊 Riesgos por métrica:</b><br>         🔹 Sísmico: 65.9%<br>         🔹 Inundación: 0.0%<br>         🔹 Huracán: 0.0%<br>         🔹 Incendio: 0.0%<br>         🔹 Precipitación: 2.6%<br>         🔹 Vegetación: 45.0%<br>         <hr><b>Raw:</b><br>seismic_rate: 659<br>flood_rate: None<br>temperature: 30.26904761904762<br>vegetation: 1000<br>elevation: -3<br></div>`)[0];
+                popup_19f06b76a602b3508454120c38cd753a.setContent(html_1eaa6ff6e6ea0c2142eca89f68a74ec2);
             
         
 
-        marker_a8f837724165f0dd6dd2e471daf7b193.bindPopup(popup_5422566ca40660a18334c4be37caaa21)
+        marker_bfc14ae47ebbd12d8720277f1f30f709.bindPopup(popup_19f06b76a602b3508454120c38cd753a)
         ;
 
         
     
     
-                marker_a8f837724165f0dd6dd2e471daf7b193.setIcon(icon_16a56335d2c991cd762e2ce5504c9d44);
+                marker_bfc14ae47ebbd12d8720277f1f30f709.setIcon(icon_4904124f9d022e63f26302ae31b0878a);
             
     
-            var layer_control_8d268c662bc1e5f354fa8b43bf223ad9_layers = {
+            var layer_control_e7417ea0cd06eab716006c6b0b5d7899_layers = {
                 base_layers : {
-                    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyj1ijoic2ftdw1hbxuilcjhijoiy21ocjhonmt1mtrycjjqb29xcxblbgfwbyj9.ldsittfukz9uucydqshagq" : tile_layer_ee20d60e4541d73fd6ec18985caacef5,
+                    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=sk.eyj1ijoic2ftdw1hbxuilcjhijoiy21ocjhonmt1mtrycjjqb29xcxblbgfwbyj9.ldsittfukz9uucydqshagq" : tile_layer_f31e8ee3d5983310596bf5cba9ed4b3b,
                 },
                 overlays :  {
                 },
             };
-            let layer_control_8d268c662bc1e5f354fa8b43bf223ad9 = L.control.layers(
-                layer_control_8d268c662bc1e5f354fa8b43bf223ad9_layers.base_layers,
-                layer_control_8d268c662bc1e5f354fa8b43bf223ad9_layers.overlays,
+            let layer_control_e7417ea0cd06eab716006c6b0b5d7899 = L.control.layers(
+                layer_control_e7417ea0cd06eab716006c6b0b5d7899_layers.base_layers,
+                layer_control_e7417ea0cd06eab716006c6b0b5d7899_layers.overlays,
                 {
   "position": "topright",
   "collapsed": true,
   "autoZIndex": true,
 }
-            ).addTo(map_b472d2751518546ac75640447047cfec);
+            ).addTo(map_e55dff77e11f06921fbb92623bb470b6);
 
         
 </script>
