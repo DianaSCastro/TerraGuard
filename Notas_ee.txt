@@ -1,0 +1,33 @@
+Este codigo es para los niveles de inundacion 
+
+var imageCollection = ee.ImageCollection("WRI/Aqueduct_Flood_Hazard_Maps/V2"),
+    imageCollection2 = ee.ImageCollection("JRC/CEMS_GLOFAS/FloodHazard/v2_1");
+
+// Cargar el dataset de peligro de inundaciones (versión 2.1)
+var floodHazardCol = ee.ImageCollection("JRC/CEMS_GLOFAS/FloodHazard/v2_1");
+
+// Combinar todas las imágenes de la colección en una sola (mosaico global)
+var floodHazard = floodHazardCol.mosaic();
+
+// Definir región (México completo, no solo Monterrey)
+var mexico = ee.FeatureCollection("FAO/GAUL/2015/level0")
+  .filter(ee.Filter.eq('ADM0_NAME', 'Mexico'));
+
+// Centrar el mapa
+Map.setCenter(-102, 23.5, 5);
+
+// Visualización categórica del peligro (evento con periodo de retorno de 100 años)
+var visCat = {
+  min: 1,
+  max: 5,
+  palette: ['#ff0000', '#b3e5fc', '#ff0000', '#01579b', '#001f54']
+};
+
+// Seleccionar y recortar la banda categórica (RP100_depth_category)
+var floodClip = floodHazard.select('RP100_depth_category').clip(mexico);
+
+// Agregar la capa al mapa
+Map.addLayer(floodClip, visCat, 'Peligro de inundación (100 años)');
+
+// Mostrar contorno de México (opcional)
+//Map.addLayer(mexico, {color: 'red', fillColor: '00000000'}, 'México');
