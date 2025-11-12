@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Análisis de Riesgos</title>
+    <title>Risk Analysis System</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
-          
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 </head>
@@ -18,94 +17,108 @@
         <div class="header-logo">
             <span class="logo-icon">🛡️</span>
             <div class="header-user">
-                <strong>Panel de Empresa</strong>
+                <strong>Company Panel</strong>
                 <span>a@gmail.com</span>
             </div>
         </div>
         <button class="btn btn-secondary">
             <span class="material-icons-outlined">logout</span>
-            Cerrar Sesión
+            Sign Out
         </button>
     </header>
 
     <nav class="tabs">
-        <a href="#" class="tab-item">
+        <a href="#" class="tab-item" id="tab-link-credentials" data-target="#content-credentials">
             <span class="material-icons-outlined">badge</span>
-            Credenciales
+            Credentials
         </a>
-        <a href="#" class="tab-item">
+        <a href="#" class="tab-item" id="tab-link-metrics" data-target="#content-metrics">
             <span class="material-icons-outlined">bar_chart</span>
-            Métricas
+            Metrics
         </a>
-        <a href="#" class="tab-item active">
+        <a href="#" class="tab-item active" id="tab-link-property" data-target="#content-property">
             <span class="material-icons-outlined">description</span>
-            Información de Propiedad
+            Property Information
         </a>
-        <a href="#" class="tab-item">
+        <a href="#" class="tab-item" id="tab-link-dashboard" data-target="#content-dashboard">
             <span class="material-icons-outlined">dashboard</span>
-            Dashboard y Análisis
+            Dashboard & Analysis
         </a>
     </nav>
 
-    <main id="form-view" class="main-container">
+    <main id="content-credentials" class="main-container tab-content-panel">
+        <div class="form-container">
+            <h2>Credentials</h2>
+            <p>Credentials management section coming soon.</p>
+        </div>
+    </main>
+
+    <main id="content-metrics" class="main-container tab-content-panel">
+        <div class="form-container">
+            <h2>Risk Metrics Configuration</h2>
+            <p>Risk metrics configuration section coming soon.</p>
+        </div>
+    </main>
+    
+    <main id="content-property" class="main-container tab-content-panel active">
         <div class="form-container">
             <div class="form-header">
                 <span class="material-icons-outlined form-icon">description</span>
                 <div class="form-header-text">
-                    <h2>Información de la Propiedad a Asegurar</h2>
-                    <p>Complete los datos de la propiedad para generar el análisis de riesgo</p>
+                    <h2>Property Information to Insure</h2>
+                    <p>Complete the property data to generate the risk analysis</p>
                 </div>
             </div>
 
             <form id="analysis-form">
                 <section class="form-section">
-                    <h3>Información de la Compañía</h3>
+                    <h3>Company Information</h3>
                     <div class="form-grid-2">
                         <div class="form-group">
-                            <label for="contact-name">Nombre de Contacto *</label>
-                            <input type="text" id="contact-name" placeholder="Ej: Juan Pérez">
+                            <label for="contact-name">Contact Name *</label>
+                            <input type="text" id="contact-name" placeholder="Ex: John Doe">
                         </div>
                         <div class="form-group">
-                            <label for="company-id">Clave de Registro de la Compañía</label>
-                            <input type="text" id="company-id" placeholder="Ej: COMP-12345">
+                            <label for="company-id">Company Registration ID</label>
+                            <input type="text" id="company-id" placeholder="Ex: COMP-12345">
                         </div>
                         <div class="form-group">
-                            <label for="agent-id">Clave del Agente</label>
-                            <input type="text" id="agent-id" placeholder="Ej: AGT-67890">
+                            <label for="agent-id">Agent ID</label>
+                            <input type="text" id="agent-id" placeholder="Ex: AGT-67890">
                         </div>
                         <div class="form-group">
-                            <label for="company-name">Nombre/Razón Social *</label>
-                            <input type="text" id="company-name" placeholder="Ej: Seguros ABC S.A.">
+                            <label for="company-name">Company Name/Legal Name *</label>
+                            <input type="text" id="company-name" placeholder="Ex: ABC Insurance Inc.">
                         </div>
                     </div>
                 </section>
 
                 <section class="form-section">
-                    <h3>Información de la Propiedad</h3>
+                    <h3>Property Information</h3>
                     <div class="form-grid-1">
                         <div class="form-group">
-                            <label for="fiscal-address">Domicilio Fiscal</label>
-                            <input type="text" id="fiscal-address" placeholder="Ej: Av. Principal 123, Col. Centro, CP 12345">
+                            <label for="fiscal-address">Fiscal Address</label>
+                            <input type="text" id="fiscal-address" placeholder="Ex: 123 Main St, Downtown, ZIP 12345">
                         </div>
                     </div>
                     <div class="form-grid-1">
                         <div class="form-group">
-                            <label for="property-address">Dirección Exacta de la Propiedad a Asegurar *</label>
-                            <input type="text" id="property-address" placeholder="Ej: Calle Secundaria 456, Col. Residencial">
+                            <label for="property-address">Exact Property Address to Insure *</label>
+                            <input type="text" id="property-address" placeholder="Ex: 456 Secondary St, Residential Area">
                         </div>
                     </div>
                     <div class="form-grid-2">
                         <div class="form-group">
-                            <label for="lat">Latitud *</label>
-                            <input type="text" id="lat" placeholder="Ej: 19.432608" required>
+                            <label for="lat">Latitude *</label>
+                            <input type="text" id="lat" placeholder="Ex: 19.432608" required>
                         </div>
                         <div class="form-group">
-                            <label for="lon">Longitud *</label>
-                            <input type="text" id="lon" placeholder="Ej: -99.133209" required>
+                            <label for="lon">Longitude *</label>
+                            <input type="text" id="lon" placeholder="Ex: -99.133209" required>
                         </div>
                         <div class="form-group">
-                            <label for="year">Año (Opcional)</label>
-                            <input type="number" id="year" placeholder="Ej: 2030 (para predicción)">
+                            <label for="year">Year (Optional)</label>
+                            <input type="number" id="year" placeholder="Ex: 2030 (for prediction)">
                         </div>
                     </div>
                 </section>
@@ -114,96 +127,80 @@
                     <div id="error-message" class="error-message"></div>
                     <button type="submit" id="analyze-btn" class="btn btn-primary btn-lg">
                         <span class="material-icons-outlined">send</span>
-                        Generar Análisis de Riesgo
+                        Generate Risk Analysis
                     </button>
                 </div>
             </form>
         </div>
     </main>
 
-    <main id="dashboard-view" class="main-container" style="display: none;">
+    <main id="content-dashboard" class="main-container tab-content-panel">
+        
         <div class="dashboard-header">
             <div>
-                <h2>Análisis de Riesgo - <span id="doc-id">AEGSRHTDJYFKUGI</span></h2>
-                <p>Documento: <span id="doc-ref">REWTYJ</span> | Cliente: <span id="client-ref">SDFDNGMFH,GJ</span></p>
-            </div>
-            <button id="back-to-form-btn" class="btn btn-secondary">
-                <span class="material-icons-outlined">arrow_back</span>
-                Volver al Formulario
-            </button>
-        </div>
-
-        <div class="dashboard-grid">
-            <div class="dashboard-col-main">
-                <div class="card">
-                    <h3>Ubicación de la Propiedad</h3>
-                    <div id="map-dashboard"></div>
-                </div>
-                
-                <div id="result-riesgo-general-card" class="card card-riesgo-general">
-                    <span class="material-icons-outlined card-icon">warning_amber</span>
-                    <h3>Riesgo General</h3>
-                    <h1 id="result-riesgo-general-pct">--%</h1>
-                    <p id="result-riesgo-general-level">--</p>
-                </div>
-            </div>
-
-            <div class="dashboard-col-metrics">
-                <div class="metrics-grid">
-                    <div class="card card-metric">
-                        <h4>Riesgo Sísmico</h4>
-                        <h2 id="result-sismico-pct">--%</h2>
-                        <progress id="progress-sismico" max="100" value="0"></progress>
-                    </div>
-                    <div class="card card-metric">
-                        <h4>Riesgo de Inundación</h4>
-                        <h2 id="result-inundacion-pct">--%</h2>
-                        <progress id="progress-inundacion" max="100" value="0"></progress>
-                    </div>
-                    <div class="card card-metric">
-                        <h4>Riesgo de Huracanes</h4>
-                        <h2 id="result-huracan-pct">--%</h2>
-                        <progress id="progress-huracan" max="100" value="0"></progress>
-                    </div>
-                    <div class="card card-metric">
-                        <h4>Riesgo de Incendios</h4>
-                        <h2 id="result-incendio-pct">--%</h2>
-                        <progress id="progress-incendio" max="100" value="0"></progress>
-                    </div>
-                    <div class="card card-metric">
-                        <h4>Riesgo por Precipitación</h4>
-                        <h2 id="result-precipitacion-pct">--%</h2>
-                        <progress id="progress-precipitacion" max="100" value="0"></progress>
-                    </div>
-                    <div class="card card-metric">
-                        <h4>Riesgo por Vegetación</h4>
-                        <h2 id="result-vegetacion-pct">--%</h2>
-                        <progress id="progress-vegetacion" max="100" value="0"></progress>
-                    </div>
-                </div>
-
-                <div class="card card-ai">
-                    <span class="material-icons-outlined card-icon">auto_awesome</span>
-                    <div>
-                        <h3>Análisis Gemini AI</h3>
-                        <p id="result-ai-summary">Evaluación automatizada basada en inteligencia artificial. Ingrese datos para generar un análisis.</p>
-                    </div>
-                </div>
-
-                <div class="form-footer">
-                    <button class="btn btn-export">
-                        <span class="material-icons-outlined">download</span>
-                        Exportar Reporte PDF
-                    </button>
-                </div>
+                <h2>Risk Analysis - <span id="doc-id">AEGSRHTDJYFKUGI</span></h2>
+                <p>Document: <span id="doc-ref">REWTYJ</span> | Client: <span id="client-ref">SDFDNGMFH,GJ</span></p>
             </div>
         </div>
+
+        <div class="dashboard-row-top">
+            <div class="card card-map">
+                <h3>Property Location</h3>
+                <div id="map-dashboard"></div>
+            </div>
+            
+            <div id="result-riesgo-general-card" class="card card-riesgo-general">
+                <h3>General Risk</h3>
+                <p id="result-riesgo-general-level">--</p>
+            </div>
+        </div>
+
+        <div class="card card-ai">
+            <span class="material-icons-outlined card-icon">auto_awesome</span>
+            <div>
+                <h3>Gemini AI Analysis</h3>
+                <p id="result-ai-summary">Enter data to generate an analysis.</p>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="card card-metric">
+                <h4>Seismic Risk</h4>
+                <h2 id="result-sismico-pct">--%</h2>
+                <progress id="progress-sismico" max="100" value="0"></progress>
+            </div>
+            <div class="card card-metric">
+                <h4>Flood Risk</h4>
+                <h2 id="result-inundacion-pct">--%</h2>
+                <progress id="progress-inundacion" max="100" value="0"></progress>
+            </div>
+            <div class="card card-metric">
+                <h4>Hurricane Risk</h4>
+                <h2 id="result-huracan-pct">--%</h2>
+                <progress id="progress-huracan" max="100" value="0"></progress>
+            </div>
+            <div class="card card-metric">
+                <h4>Wildfire Risk</h4>
+                <h2 id="result-incendio-pct">--%</h2>
+                <progress id="progress-incendio" max="100" value="0"></progress>
+            </div>
+            <div class="card card-metric">
+                <h4>Precipitation Risk</h4>
+                <h2 id="result-precipitacion-pct">--%</h2>
+                <progress id="progress-precipitacion" max="100" value="0"></progress>
+            </div>
+            <div class="card card-metric">
+                <h4>Vegetation Risk</h4>
+                <h2 id="result-vegetacion-pct">--%</h2>
+                <progress id="progress-vegetacion" max="100" value="0"></progress>
+            </div>
+        </div>
+
     </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
-            
     <script src="script.js"></script>
 </body>
 </html>
